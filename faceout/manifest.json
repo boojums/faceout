@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+
+  "name": "FaceOut",
+  "description": "This extension tries to get you to do something.",
+  "version": "0.1.0",
+
+  "background": {
+     "persistent": false,
+     "scripts": ["background.js"]    
+  },
+
+  "permissions": [
+    "tabs",
+    "alarms",
+    "http://*.facebook.com/",
+    "https://*.facebook.com/"
+  ],
+  
+  "icons": { 
+    "16": "icons/clock16.png",
+    "128": "icons/clock128.png"
+  },
+
+  "author": "Cristina Luis"
+}

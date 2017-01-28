@@ -10,21 +10,19 @@ const five_minutes = 300000
 
 /* Listen for any changes to the URL of any tab. */
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if (changeInfo.status == 'complete') {
-        var checkstring = 'facebook.com';
-      
-        if (tab.url.search(checkstring) > 0)  {
-            chrome.alarms.getAll(function(alarms) {
-              var hasAlarm = alarms.some(function(a) {
-                return a.name == "facebook";
-              });
-            if (!hasAlarm) {
-              chrome.alarms.create("facebook", {when: Date.now() + five_minutes});
-            }
+    var checkstring = 'facebook.com';      
+    if (tab.url.search(checkstring) > 0) {
+        chrome.alarms.getAll(function(alarms) {
+          var hasAlarm = alarms.some(function(a) {
+            return a.name == "facebook";
           });
-        } else {
-            chrome.alarms.clearAll();
-        } 
+        if (!hasAlarm) {
+          chrome.alarms.create("facebook", {
+            when: Date.now() + five_minutes});
+        }
+      });
+    } else {
+        chrome.alarms.clearAll();
     } 
 });
 

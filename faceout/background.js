@@ -6,13 +6,22 @@ alarm for 5 minutes. After that time redirect tab to
 
 */
 
-// Listen for any changes to the URL of any tab.
+const five_minutes = 300000
+
+/* Listen for any changes to the URL of any tab. */
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.status == 'complete') {
         var checkstring = 'facebook.com';
       
         if (tab.url.search(checkstring) > 0)  {
-            chrome.alarms.create("facebook", {when: Date.now() + 300000});
+            chrome.alarms.getAll(function(alarms) {
+              var hasAlarm = alarms.some(function(a) {
+                return a.name == "facebook";
+              });
+            if (!hasAlarm) {
+              chrome.alarms.create("facebook", {when: Date.now() + five_minutes});
+            }
+          });
         } else {
             chrome.alarms.clearAll();
         } 
@@ -23,9 +32,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 var lastTabId = -1;
 function redirect() {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    console.log(tabs);
     lastTabId = tabs[0].id;
-    chrome.tabs.update(lastTabId, {url: "http://5calls.org"});
+    chrome.tabs.update(lastTabId, {url: "https://5calls.org"});
   });
 }
 
